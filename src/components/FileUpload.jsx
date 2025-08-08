@@ -27,7 +27,7 @@ const FileUpload = () => {
 
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:5000/match?threshold=${threshold}`, {
+      const res = await fetch(`https://scannerb.onrender.com/match?threshold=${threshold}`, {
         method: "POST",
         body: formData,
       });
