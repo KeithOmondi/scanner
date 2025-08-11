@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -30,13 +31,8 @@ const FileUpload = () => {
         body: formData
       });
 
-      console.log("📥 Status:", res.status);
-
       const data = await res.json();
-
-      console.log("📦 Response:", data);
-
-      if (res.ok && data?.matched?.length) {
+      if (res.ok && Array.isArray(data.matched)) {
         setMatches(data.matched);
       } else {
         setMatches([]);
@@ -66,7 +62,7 @@ const FileUpload = () => {
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="p-6 max-w-6xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">📑 Gazette Name Matcher</h1>
 
       <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -99,18 +95,24 @@ const FileUpload = () => {
             <thead className="bg-gray-100 text-left">
               <tr>
                 <th className="border px-3 py-2">No</th>
-                <th className="border px-3 py-2">Excel Name</th>
+                <th className="border px-3 py-2">Name of The Deceased</th>
                 <th className="border px-3 py-2">Gazette Match</th>
                 <th className="border px-3 py-2">Score</th>
+                <th className="border px-3 py-2">Gazette Date</th>
+                <th className="border px-3 py-2">Status at G.P</th>
+                <th className="border px-3 py-2">Approval Date</th>
               </tr>
             </thead>
             <tbody>
               {matches.map((m, i) => (
                 <tr key={i} className="hover:bg-gray-50">
                   <td className="border px-3 py-2">{i + 1}</td>
-                  <td className="border px-3 py-2">{m.excelName}</td>
+                  <td className="border px-3 py-2">{m.nameOfTheDeceased}</td>
                   <td className="border px-3 py-2">{m.gazetteMatch}</td>
                   <td className={`border px-3 py-2 text-center ${m.score < 100 ? "bg-yellow-100 text-yellow-700" : ""}`}>{m.score}</td>
+                  <td className="border px-3 py-2">{m.gazetteDate}</td>
+                  <td className="border px-3 py-2">{m.statusAtGP}</td>
+                  <td className="border px-3 py-2">{m.approvalDate}</td>
                 </tr>
               ))}
             </tbody>
